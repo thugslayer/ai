@@ -1,0 +1,4 @@
+swipl -s fibo.pl
+
+
+?- fibonacci(5,X).
