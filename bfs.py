@@ -1,33 +1,28 @@
 from collections import deque
 
-def bfs(n, adj_matrix, start):
-    visited = [False] * (n + 1)
-    queue = deque()
-    bfs_order = []
-
-    queue.append(start)
+def bfs(graph, start, n):
+    visited = [False] * n
+    queue = deque([start])
     visited[start] = True
+    path = []
 
     while queue:
         node = queue.popleft()
-        bfs_order.append(node)
+        path.append(node + 1)
 
-        for neighbor in range(1, n + 1):
-            if adj_matrix[node][neighbor] == 1 and not visited[neighbor]:
-                queue.append(neighbor)
+        for neighbor in range(n):
+            if graph[node][neighbor] == 1 and not visited[neighbor]:
                 visited[neighbor] = True
+                queue.append(neighbor)
 
-    return bfs_order
+    return path
 
-n = int(input("Enter no. of nodes: "))
+
+n = int(input("Number of nodes: "))
 print("Enter adjacency matrix:")
-adj_matrix = [[0] * (n + 1)]
+graph = [list(map(int, input().split())) for _ in range(n)]
 
-for i in range(1, n + 1):
-    row = [0] + list(map(int, input().split()))
-    adj_matrix.append(row)
+start = int(input("Source node: ")) - 1
+result = bfs(graph, start, n)
 
-start_node = int(input("Enter start node: "))
-
-result = bfs(n, adj_matrix, start_node)
-print("BFS Traversal Order:", result)
+print("BFS Traversal Path:", result)
